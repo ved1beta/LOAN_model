@@ -1,2 +1,5 @@
 pandas
+catboost
+dill
+sklearn
 -e .
