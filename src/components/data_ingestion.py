@@ -8,6 +8,8 @@ from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
 from src.components.data_transformation import DataTransformationConfig
 from src.components.data_transformation import Datatransformation
+from src.components.model_trainer import ModelTrainerConfig
+from src.components.model_trainer import ModelTrainer
 # Add these debug lines at the start
 print("Current working directory:", os.getcwd())
 logging.info("Testing logger")
@@ -54,6 +56,11 @@ if __name__=="__main__":
     obj=DataIngestion()
     train_data,test_data=obj.initiate_data_ingestion()
     data_transformation=Datatransformation()
-    data_transformation.initiate_data_transformation(train_data,test_data)
+    train_arr,test_arr,_=data_transformation.initiate_data_transformation(train_data,test_data)
+    modeltrainer=ModelTrainer()
+    modeltrainer.initiate_model_trainer(train_arr,test_arr)
+    print(modeltrainer.initiate_model_trainer(train_arr,test_arr))
     logging.info(f"Data ingestion completed. Train data path: {train_data}, Test data path: {test_data}")
+    
+
         
