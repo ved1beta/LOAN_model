@@ -58,7 +58,6 @@ if __name__=="__main__":
     data_transformation=Datatransformation()
     train_arr,test_arr,_=data_transformation.initiate_data_transformation(train_data,test_data)
     modeltrainer=ModelTrainer()
-    modeltrainer.initiate_model_trainer(train_arr,test_arr)
     print(modeltrainer.initiate_model_trainer(train_arr,test_arr))
     logging.info(f"Data ingestion completed. Train data path: {train_data}, Test data path: {test_data}")
     
