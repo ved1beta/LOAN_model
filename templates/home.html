@@ -1,0 +1,129 @@
+<html>
+<head>
+    <title>Loan Default Prediction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Loan Default Prediction System</h1>
+   
+        <form action="{{ url_for('predict_datapoint')}}" method="post">
+            <!-- Numerical Inputs -->
+            <div class="mb-3">
+                <label class="form-label">Age</label>
+                <input class="form-control" type="number" name="person_age" 
+                    placeholder="Enter age" min="18" max="100" required/>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Annual Income</label>
+                <input class="form-control" type="number" name="person_income" 
+                    placeholder="Enter annual income" min="0" required/>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Employment Length (years)</label>
+                <input class="form-control" type="number" name="person_emp_length" 
+                    placeholder="Enter employment length" min="0" step="0.1" required/>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Loan Amount</label>
+                <input class="form-control" type="number" name="loan_amnt" 
+                    placeholder="Enter loan amount" min="0" required/>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Interest Rate (%)</label>
+                <input class="form-control" type="number" name="loan_int_rate" 
+                    placeholder="Enter interest rate" min="0" max="100" step="0.01" required/>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Loan Percent Income</label>
+                <input class="form-control" type="number" name="loan_percent_income" 
+                    placeholder="Enter loan percent income" min="0" max="100" step="0.01" required/>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Credit History Length (years)</label>
+                <input class="form-control" type="number" name="cb_person_cred_hist_length" 
+                    placeholder="Enter credit history length" min="0" step="0.1" required/>
+            </div>
+
+            <!-- Categorical Inputs -->
+            <div class="mb-3">
+                <label class="form-label">Home Ownership</label>
+                <select class="form-control" name="person_home_ownership" required>
+                    <option value="" selected disabled>Select home ownership status</option>
+                    <option value="RENT">Rent</option>
+                    <option value="OWN">Own</option>
+                    <option value="MORTGAGE">Mortgage</option>
+                    <option value="OTHER">Other</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Loan Intent</label>
+                <select class="form-control" name="loan_intent" required>
+                    <option value="" selected disabled>Select loan purpose</option>
+                    <option value="DEBTCONSOLIDATION">Debt Consolidation</option>
+                    <option value="EDUCATION">Education</option>
+                    <option value="HOMEIMPROVEMENT">Home Improvement</option>
+                    <option value="MEDICAL">Medical</option>
+                    <option value="PERSONAL">Personal</option>
+                    <option value="VENTURE">Venture</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Loan Grade</label>
+                <select class="form-control" name="loan_grade" required>
+                    <option value="" selected disabled>Select loan grade</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                    <option value="E">E</option>
+                    <option value="F">F</option>
+                    <option value="G">G</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Previous Default</label>
+                <select class="form-control" name="cb_person_default_on_file" required>
+                    <option value="" selected disabled>Select previous default status</option>
+                    <option value="Y">Yes</option>
+                    <option value="N">No</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <input class="btn btn-primary" type="submit" value="Predict Loan Default Risk"/>
+            </div>
+        </form>
+
+        {% if results is defined %}
+        <div class="mt-4">
+            <h2>Prediction Result:</h2>
+            <div class="alert {% if results == 1 %}alert-danger{% else %}alert-success{% endif %}">
+                {% if results == 1 %}
+                    High risk of default
+                {% else %}
+                    Low risk of default
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if error is defined %}
+        <div class="alert alert-danger mt-4">
+            {{ error }}
+        </div>
+        {% endif %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
