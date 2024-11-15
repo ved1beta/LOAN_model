@@ -2,17 +2,16 @@ import os
 import sys
 from dataclasses import dataclass
 
-from catboost import CatBoostClassifier
 from sklearn.ensemble import (
     AdaBoostClassifier,
     GradientBoostingClassifier,
-    RandomForestClassifier,
+    RandomForestClassifier
 )
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
-from sklearn.neighbors import KNeighborsRegressor
 from sklearn.tree import DecisionTreeClassifier
 from xgboost import XGBClassifier
+from catboost import CatBoostClassifier
 
 from src.exception import CustomException
 from src.pipeline.logger import logging
@@ -104,7 +103,7 @@ class ModelTrainer:
 
             if best_model_score<0.6:
                 raise CustomException("No best model found")
-            logging.info(f"Best found model on both training and testing dataset")
+            logging.info(f"Best found model on both training and testing dataset: {best_model_name}")
 
             save_object(
                 file_path=self.model_trainer_config.trained_model_file_path,
@@ -113,8 +112,9 @@ class ModelTrainer:
 
             predicted=best_model.predict(X_test)
 
-            r2_square = accuracy_score(y_test, predicted)
-            return r2_square
+            accuracy = accuracy_score(y_test, predicted)
+            return accuracy
 
         except Exception as e:
+            logging.error("Error in model training", exc_info=True)
             raise CustomException(e,sys)
